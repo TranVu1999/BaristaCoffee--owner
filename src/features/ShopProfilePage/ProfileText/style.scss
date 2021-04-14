@@ -1,0 +1,124 @@
+@import './../../../assets/Sass/variable.scss';
+@import './../../../assets/Sass/minxin.scss';
+
+.profile-text__content{
+    color: $main-color;
+
+    form.shop-info{
+        .form-group{
+            margin-bottom: 24px;
+            &.col-2{
+                @include d-flex(center, flex-start);
+                div:first-child{
+                    margin-right: 20px;
+                }
+            }
+        }
+        label{
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .input-control{
+            @include d-flex(center, space-between);
+            border: 1px solid #d5d5d5;
+            border-radius: 4px;
+            padding: 10px 15px;
+            margin-top: 10px;
+
+            input{
+                flex: 1;
+            }
+
+            .input-suffix{
+                color: #666;
+            }
+        }
+
+        textarea, input{
+            font-size: 15px;
+        }
+        
+        textarea{
+            width: 100%;
+            resize:none;
+        }
+
+        button{
+            background-color: $main-color;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 3px;
+
+            border: 1px solid $main-color;
+            font-size: 16px;
+
+            &:hover{
+                background-color: #fff;
+                color: $primary-color;
+            }
+        }
+    }
+
+    .input-thumb{
+        border: 1px dashed #d5d5d5;
+        width: 196px;
+        height: 166px;
+        position: relative;
+
+        margin-top: 10px;
+        background-size: cover;
+        background-position: center;
+
+        .input-thumb__label{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #666;
+
+            width: 100%;
+            text-align: center;
+        }
+
+        .input-thumb__control{
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            width: 80%;
+
+            .input-thumb__control--item{
+                display: block;
+                text-align: center;
+                border: 1px solid #d5d5d5;
+                padding: 4px 15px;
+                border-radius: 5px;
+
+                width: 100%;
+                cursor: pointer;
+
+                &:first-child{
+                    margin-bottom: 10px;
+                }
+
+                &:hover{
+                    border-color: $primary-color;
+                    color: $primary-color;
+                }
+
+            }
+        }
+
+        &:hover{
+            .input-thumb__label{
+                display: none;
+            }
+            .input-thumb__control{
+                display: block;
+            } 
+        }
+    }
+}

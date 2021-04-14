@@ -1,0 +1,8 @@
+.todo-list__content{
+    .todo-list__widget{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        row-gap: 30px;
+        column-gap: 30px;
+    }
+}

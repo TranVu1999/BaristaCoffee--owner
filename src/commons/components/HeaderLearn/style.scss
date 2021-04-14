@@ -1,0 +1,13 @@
+@import './../../../assets//Sass/variable.scss';
+
+.header__learn{
+    text-transform: uppercase;
+    border: 1px solid #eae7de;
+    padding: 4px 12px;
+    border-radius: 25px;
+
+    &:hover{
+        border-color: $primary-color;
+        color: $primary-color;
+    }
+}

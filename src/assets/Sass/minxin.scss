@@ -1,0 +1,36 @@
+@mixin  d-flex ($align, $justify) {
+    display: flex;
+    align-items: $align;
+    justify-content: $justify;
+}
+
+@mixin  position (
+    $client-X: 0, 
+    $client-Y: 0, 
+    $translateX:false, 
+    $translateY:false, 
+    $center:false
+) {
+    top: $client-Y;
+    left: $client-X;
+
+    @if $translateY{
+        transform: translateY(-50%);
+    } 
+
+    @if $translateX {
+        transform: translateX(-50%);
+    }
+
+    @if $center {
+        transform: translate(-50%, -50%);
+    }
+
+
+    
+}
+
+@mixin size ($width:auto, $height:auto) {
+    width: $width;
+    height: $height;
+}

@@ -1,0 +1,33 @@
+@import './../../../assets/Sass/minxin.scss';
+@import './../../../assets/Sass/variable.scss';
+
+.shop-list-info{
+    border: 1px solid #d5d5d5;
+    .shop-info__item{
+        @include d-flex(center, space-between);
+        padding: 10px 15px;
+        border-top: 1px solid #d5d5d5;
+        font-size: 13px;
+    }
+
+    .shop-info--left{
+        @include d-flex(center, space-between);
+    }
+
+    .shop-info--right{
+        color: $main-color;
+        a{
+            @include d-flex(center, space-between);
+            &:hover{
+                color: $primary-color;
+            }
+        }
+    }
+
+
+    svg{
+        width: 14px;
+        height: 14px;
+        margin-right: 8px;
+    }
+}

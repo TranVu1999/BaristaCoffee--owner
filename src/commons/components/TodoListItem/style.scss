@@ -1,0 +1,16 @@
+@import './../../../assets/Sass/variable.scss';
+
+.todo-list__item{
+    text-align: center;
+
+    span{
+        display: block;
+        color: $main-color;
+    }
+
+    span.number{
+        color: $primary-color;
+        font-weight: 800;
+        font-size: 22px;
+    }
+}

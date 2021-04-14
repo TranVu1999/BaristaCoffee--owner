@@ -1,0 +1,12 @@
+@import './../../../assets/Sass/minxin.scss';
+
+.widget{
+    margin-bottom: 20px;
+    @include d-flex(center, space-between);
+
+    .widget--left{
+        h4{
+            margin-bottom: 4px;
+        }
+    }
+}

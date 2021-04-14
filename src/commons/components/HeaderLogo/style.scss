@@ -1,0 +1,15 @@
+.header__logo{
+    text-transform: capitalize;
+    display: block;
+    img{
+        width: 75px;
+    }
+    span{
+        display: inline-block;
+        transform: translateY(-1px);
+        font-size: 18px;
+        margin-left: 5px;
+        letter-spacing: 1px;
+        word-spacing: -4px;
+    }
+}

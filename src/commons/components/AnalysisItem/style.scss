@@ -1,0 +1,15 @@
+@import './../../../assets/Sass/minxin.scss';
+.analysis__item{
+    font-size: 13px;
+    margin-bottom: 40px;
+    .analysis__item--label{
+        @include d-flex(center, flex-start);
+    }
+    .analysis__item--number{
+        font-size: 20px;
+        font-weight: 800;
+    }
+    .analysis__item--desc{
+        color: #999;
+    }
+}

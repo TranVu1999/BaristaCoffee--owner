@@ -1,0 +1,60 @@
+@import './../../../assets/Sass/minxin.scss';
+@import './../../../assets/Sass/variable.scss';
+
+.sidebar--left__item{
+    cursor: pointer;
+    text-transform: capitalize;
+    padding: 6px 0px;
+    margin-bottom: 16px;
+
+    .sidebar-item__label{
+        @include d-flex(center, space-between);
+        &:hover{
+            color: $primary-color;
+        }
+    }
+
+    &.active{
+        .icon-box{
+            transform: rotateZ(180deg);
+        } 
+    }
+
+    &:first-child{
+        margin-top: 10px;
+    }
+
+    &:last-child{
+        margin-bottom: 10px;
+    }
+
+    .sidebar-item__toggle{
+        max-height: 0;
+        overflow: hidden;
+        transition: all .7s;
+    }
+
+    &.active{
+        .sidebar-item__toggle{
+            max-height: 100px;
+        }
+    }
+    
+    .span-box{
+        @include d-flex(center, start);
+
+        img{
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+    
+        .span{
+            font-weight: 700;
+        }
+    }    
+
+    .icon-box{
+        font-size: 24px;
+    }
+}

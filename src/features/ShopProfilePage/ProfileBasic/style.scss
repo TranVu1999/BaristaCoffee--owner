@@ -1,0 +1,44 @@
+@import './../../../assets/Sass/variable.scss';
+
+.profile-basic__content{
+    .cover-img{
+        height: 200px;
+        background-color: #c7a17a7d;
+        position: relative;
+        padding: 30px 25px;
+        background-size: cover;
+
+        background-position: center;
+
+        .sub-img{
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            overflow: hidden;
+
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all .5s;
+
+            &:hover{
+                border-color: $main-color;
+            }
+
+            img{
+                object-fit: cover;
+                height: 100%;
+            }
+        }
+
+        button{
+            background-color: $main-color;
+            color: #fff;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+
+            width: 100%;
+            padding: 6px 0;
+        }
+    }
+}

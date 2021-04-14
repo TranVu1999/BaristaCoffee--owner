@@ -1,0 +1,20 @@
+@import './../../assets/Sass/minxin.scss';
+.container__content{
+    flex: 1;
+
+    &.home__container{
+        @include d-flex(flex-start, space-between);
+    }
+
+    .home--left{
+        flex: 1;
+        margin-right: 15px;
+    }
+
+    .todo-list, .analysis, .marketing, .operational-efficiency{
+        background-color: #fff;
+        padding: 24px;
+        margin-bottom: 10px;
+    }
+    
+}

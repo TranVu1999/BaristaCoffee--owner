@@ -1,0 +1,19 @@
+@import './../../assets/Sass/minxin.scss';
+@import './../../assets/Sass/variable.scss';
+
+.shop-profile__container{
+    padding: 24px;
+    background-color: #fff;
+
+    .shop-profile__content{
+        @include d-flex(flex-start, flex-start);
+    }
+    .shop-profile--left{
+        width: 375px;
+    }
+
+    .shop-profile--right{
+        margin-left: 24px;
+        flex: 1;
+    }
+}

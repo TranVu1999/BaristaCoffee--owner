@@ -1,0 +1,14 @@
+@import './../../../assets/Sass/minxin.scss';
+@import './../../../assets/Sass/variable.scss';
+.reawdmore-link-box{
+    @include d-flex(center, flex-start);
+    color: $primary-color;
+
+    &:hover{
+        color: $main-color;
+    }
+
+    span{
+        font-size: 18px;
+    }
+}

@@ -1,0 +1,8 @@
+@import './../../../assets//Sass/minxin.scss';
+.sidebar--right__content{
+    .sidebar--right__title{
+        @include d-flex(center, space-between);
+        margin-bottom: 20px;
+    }
+
+}

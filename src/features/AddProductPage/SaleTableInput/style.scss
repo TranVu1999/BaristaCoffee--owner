@@ -1,0 +1,60 @@
+@import './../../../assets/Sass/variable.scss';
+@import './../../../assets/Sass/minxin.scss';
+
+.sale-table__content{
+    margin-bottom: 30px;
+    font-size: 14px;
+
+    .sale-table__row{
+        @include d-flex(center, space-between);
+        margin-bottom: 15px;
+        input{
+            font-size: 14px!important;
+        }
+
+        .sale-table__from, 
+        .sale-table__to,
+        .sale-table__price{
+            flex: 1;
+            border-radius: 4px;
+            margin: 0 10px;
+
+            input{
+                margin: 0!important;
+                width: 100%;
+            }
+        }
+
+        .sale-table__label{
+            width: 110px;
+        }
+
+        .sale-table__control{
+            width: 16px;
+            cursor: pointer;
+
+            svg{
+                fill: #666;
+            }
+
+            &:hover{
+                svg{
+                    fill: $primary-color;
+                }
+            }
+        }
+    }
+
+    .sale-table__body{
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    .sale-table__error{
+        margin-top: 20px;
+        border: 1px solid #c7a17a50;
+        border-radius: 4px;
+        padding: 5px 15px;
+        background-color: #c7a17a80;
+    }
+}

@@ -1,0 +1,25 @@
+@import './../../../assets/Sass/minxin.scss';
+
+.analysis__widget{
+    @include d-flex(start, space-between);
+
+    .analysis--left, .analysis--right{
+        flex: 1;
+    }
+
+    .analysis--left{
+        .analysis__item{
+            margin-bottom: 0;
+        }
+    }
+
+    .analysis--right {
+        .analysis--row{
+            @include d-flex(start, space-between);
+
+            .analysis__item{
+                flex: 1;
+            }
+        }
+    }
+}

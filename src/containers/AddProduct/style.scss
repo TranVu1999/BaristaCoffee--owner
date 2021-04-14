@@ -1,0 +1,139 @@
+@import './../../assets/Sass/variable.scss';
+@import './../../assets/Sass/minxin.scss';
+
+.add-product__container{
+
+    .add-product--left{
+        width: calc(100% - 250px);
+        margin-right: 15px;
+    }
+}
+
+.tabContent{
+    position: fixed;
+    top: 35%;
+    right: -25px;
+    transform: translate(-50%, -50%);
+
+    border-left: 2px solid #d5d5d5;
+    padding-left: 30px;
+    padding-top: 15px;
+
+    .tabContent__item{
+        margin-bottom: 20px;
+        position: relative;
+
+        &.active::after{
+            content: '';
+            display: block;
+            width: 2px;
+            height: calc(100% + 10px);
+            background-color: $primary-color;
+
+            position: absolute;
+            top: 0;
+            left: -32px;
+            transform: translateY(-25%);
+        }
+
+        &:last-child{
+            margin-bottom: 15px;
+        }
+
+        h4{
+            font-size: 15px;
+            cursor: pointer;
+
+            &:hover{
+                color: $primary-color;
+            }
+        }
+
+        &.active{
+            h4{
+                color: $primary-color;
+            }            
+        }
+        
+    }
+}
+
+.add-product__main-title{
+    padding: 24px 24px 1px;
+    background-color: #fff;
+    margin-bottom: 15px;
+}
+
+.widget-form__group{
+    background-color: #fff;
+    padding: 24px;
+    margin-bottom: 15px;
+
+    &.last-group{
+        margin-bottom: 100px;
+    }
+
+    &:last-child{
+        margin-bottom: 0;
+    }
+
+    h4.title{
+        font-size: 16px;
+        text-transform: capitalize;
+        margin-bottom: 24px;
+    }
+
+    .widget-form__row{
+        @include d-flex(center, flex-start);
+        font-size: 16px;
+        margin-bottom: 20px;
+        
+
+        &.large-input{
+            @include d-flex(flex-start, space-between);
+
+            .input-suffix{
+                text-align: right;
+                border: none!important;
+            }
+        }
+
+        .widget-form__label{
+            width: 166px;
+            text-align: right;
+            margin-right: 25px;
+        }
+
+        .widget-form__input{
+            flex: 1;
+           
+
+            input{
+                font-size: 16px;
+                flex: 1;
+                margin-right: 8px;
+                line-height: 1.6;
+            }
+        }       
+    }
+
+    
+
+    .size-input__box{
+        @include d-flex(center, flex-start);
+
+        .size-input{
+            border: 1px solid #d5d5d5;
+            margin-right: 15px;
+            padding: 4px 15px;
+            border-radius: 5px;
+            width: 180px;
+
+            @include d-flex(center, flex-start);
+
+            input{
+                width: calc(100% - 20px);
+            }
+        }
+    }
+}
