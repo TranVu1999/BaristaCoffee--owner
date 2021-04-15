@@ -1,85 +1,29 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './style.scss';
 
 import InputField from '../../../commons/components/InputField'
 import * as Notify from '../../../commons/constant/Notify'
 
-export default function ProfileText(props) {
+function ProfileText(props) {
     const [brand, setBrand] = useState({
         value: "",
         error: ""
     })
-    const [description, setDiscription] = useState({
+    const [description, setDescription] = useState({
         value: "",
         error: ""
     })
 
     const onHandleChange = event =>{
-        const {name, value} = event.target
-        
-        switch(name){
-            case 'brand':
-                setBrand({
-                    value, error: ""
-                })
-                break
-
-            case 'description':
-                setDiscription({
-                    value, error: ""
-                })
-                break
-
-            default:    
-                break
-        }
+        props.onHandleChange(event)
     }
 
     const onHandleFocus = event =>{
-        const {name, value} = event.target
-        
-        switch(name){
-            case 'brand':
-                setBrand({
-                    value, error: ""
-                })
-                break
-
-            case 'description':
-                setDiscription({
-                    value, error: ""
-                })
-                break
-
-            default:    
-                break
-        }
+        props.onHandleFocus(event)
     }
 
     const onHandleBlur = event =>{
-        const {name, value} = event.target
-        
-        switch(name){
-            case 'brand':
-                if(!value){
-                    setBrand({
-                        value, error: Notify.IS_EMPTY
-                    })
-                }
-                break
-
-            case 'description':
-                if(!value){
-                    setDiscription({
-                        value, error: Notify.IS_EMPTY
-                    })
-                }
-                
-                break
-
-            default:    
-                break
-        }
+        props.onHandleBlur(event)
     }
 
     const onUpdateImage = (typeImage) =>{
@@ -90,10 +34,7 @@ export default function ProfileText(props) {
 
     const onHandleSubmit = event =>{
         event.preventDefault()
-        props.onSave({
-            brand,
-            description
-        })
+        props.onSave()
     }
 
     return (
@@ -107,11 +48,11 @@ export default function ProfileText(props) {
                     <InputField
                         placeholder="Nhập tên shop của bạn"
                         rangeLimit = "120"
-                        value = {brand.value}
+                        value = {props.brand.value}
                         onHandleChange = {onHandleChange}
                         name = "brand"
                         onHandleFocus = {onHandleFocus}
-                        errMessage = {brand.error}
+                        errMessage = {props.brand.error}
                         onHandleBlur = {onHandleBlur}
                     />
                 </div>
@@ -176,7 +117,7 @@ export default function ProfileText(props) {
                             cols="32" 
                             placeholder="Nhập mô tả hoặc thông tin về Shop của bạn tại đây"
                             name="description"
-                            value = {description.value}
+                            value = {props.description.value}
                             onChange = {onHandleChange}
                         >
                         </textarea>
@@ -190,3 +131,5 @@ export default function ProfileText(props) {
         </div>
     )
 }
+
+export default React.memo(ProfileText)

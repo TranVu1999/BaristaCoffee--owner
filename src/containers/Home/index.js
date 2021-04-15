@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import './style.scss'
 
@@ -8,11 +8,23 @@ import Marketing from './../../features/HomePage/Marketing'
 import OperationalEfficiency from './../../features/HomePage/OperationalEfficiency'
 import SidebarRight from './../../features/HomePage/SidebarRight'
 
+import setHeader from './../../untils/setHeader'
+
 HomePage.propTypes = {
     
 };
 
 function HomePage(props) {
+
+    useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken')
+        if(accessToken){
+            setHeader(accessToken)
+            console.log("Set access token")
+        }
+        
+    }, )
+
     return (
         <div className="container__content home__container">
                 <div className="home--left">

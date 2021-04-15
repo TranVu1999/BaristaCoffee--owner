@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
+import React, {useState, useEffect} from 'react';
 import './style.scss'
 
 import WidgetTitle from './../../commons/components/WidgetTitle'
@@ -9,13 +8,10 @@ import ProfileBasic from './../../features/ShopProfilePage/ProfileBasic'
 import ProfileText from './../../features/ShopProfilePage/ProfileText'
 
 import api from './../../api'
-import setHeader from './../../untils/setHeader'
 import * as Helpers from './../../commons/js/helper'
 
-
-ShopProfilePage.propTypes = {
-    
-};
+import setHeader from './../../untils/setHeader'
+import * as Notify from '../../commons/constant/Notify'
 
 
 function ShopProfilePage(props) {
@@ -25,6 +21,55 @@ function ShopProfilePage(props) {
     const [typeImageUpdate, setTypeImageUpdate] = useState('')
     const [brandImage, setBrandImage] = useState('')
     const [descImage, setDescImage] = useState('')
+    const [brand, setBrand] = useState({
+        value: "",
+        error: ""
+    })
+    const [description, setDescription] = useState({
+        value: "",
+        error: ""
+    })
+    const [isUpdate, setIsUpdate] = useState(false)
+    
+
+    useEffect(() =>{
+        const accessToken = localStorage.getItem('accessToken')
+        if(accessToken){
+            setHeader(accessToken)
+            console.log("Set access token")
+
+            api.get('store')
+            .then(res =>{
+                if(res.data.success){
+                    const {
+                        descriptionImage,
+                        brand,
+                        logo,
+                        avatar,
+                        description,
+                        coverImage
+                    } = res.data.store
+
+                    setAvatar(avatar)
+                    setCoverImage(coverImage)
+                    setBrandImage(logo)
+                    setDescImage(descriptionImage)
+                    setBrand({
+                        value: brand,
+                        error: ""
+                    })
+                    setDescription({
+                        value: description,
+                        error: ""
+                    })
+                    setIsUpdate(true)
+                }
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+        }
+    }, [])
 
     const onHandleCloseImageInput = () =>{
         setIsOpenImageInput(false)
@@ -59,23 +104,30 @@ function ShopProfilePage(props) {
         setIsOpenImageInput(true)
     }
 
-    const onHanldeSave = (shopText) =>{
-        const accessToken = localStorage.getItem('accessToken')
-        if(accessToken){
-            let alias = Helpers.removeSpaveRedundancy(shopText.brand.value)
-            alias = Helpers.createAlias(alias)
+    const onHanldeSave = () =>{
+        
+        let alias = Helpers.removeSpaveRedundancy(brand.value)
+        alias = Helpers.createAlias(alias)
 
-            const data = {
-                brand: shopText.brand.value,
-                logo: brandImage,
-                description: shopText.description.value,
-                coverImage,
-                descriptionImage: [descImage],
-                avatar,
-                alias
-            }
-            
-            setHeader(accessToken)
+        const data = {
+            brand: brand.value,
+            logo: brandImage,
+            description: description.value,
+            coverImage,
+            descriptionImage: [descImage],
+            avatar,
+            alias
+        }
+        
+        if(isUpdate){
+            api.put('store/update', data)
+            .then(res =>{
+                console.log(res.data)
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+        }else{
             api.post('store/register', data)
             .then(res =>{
                 console.log(res.data)
@@ -83,13 +135,79 @@ function ShopProfilePage(props) {
             .catch(err =>{
                 console.log(err)
             })
-            
         }
         
-
-
         
     }
+
+    const onHandleChange = event =>{
+        const {name, value} = event.target
+        
+        switch(name){
+            case 'brand':
+                setBrand({
+                    value, error: ""
+                })
+                break
+
+            case 'description':
+                setDescription({
+                    value, error: ""
+                })
+                break
+
+            default:    
+                break
+        }
+    }
+
+    const onHandleFocus = event =>{
+        const {name, value} = event.target
+        
+        switch(name){
+            case 'brand':
+                setBrand({
+                    value, error: ""
+                })
+                break
+
+            case 'description':
+                setDescription({
+                    value, error: ""
+                })
+                break
+
+            default:    
+                break
+        }
+    }
+
+    const onHandleBlur = event =>{
+        const {name, value} = event.target
+        
+        switch(name){
+            case 'brand':
+                if(!value){
+                    setBrand({
+                        value, error: Notify.IS_EMPTY
+                    })
+                }
+                break
+
+            case 'description':
+                if(!value){
+                    setDescription({
+                        value, error: Notify.IS_EMPTY
+                    })
+                }
+                
+                break
+
+            default:    
+                break
+        }
+    }
+    
 
     return (
         <div className="container__content shop-profile__container">
@@ -115,6 +233,12 @@ function ShopProfilePage(props) {
                         brandImage = {brandImage}
                         descImage = {descImage}
                         onSave = {onHanldeSave}
+                        brand = {brand}
+                        description = {description}
+
+                        onHandleBlur = {onHandleBlur}
+                        onHandleChange = {onHandleChange}
+                        onHandleFocus = {onHandleFocus}
                     />
                     
                 </div>
