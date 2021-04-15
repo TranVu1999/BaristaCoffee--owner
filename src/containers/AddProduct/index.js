@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './style.scss';
 import WidgetTitle from './../../commons/components/WidgetTitle';
 import Suggestion from '../../commons/components/Suggestion';
@@ -9,6 +9,9 @@ import ProductInfomationBasic from './../../features/AddProductPage/ProductInfoB
 import ProductInfoSale from './../../features/AddProductPage/ProductInfoSale';
 import ProductImage from './../../features/AddProductPage/ProductImage';
 import ProudctOther from './../../features/AddProductPage/ProductOther';
+
+import api from './../../api'
+import setHeader from './../../untils/setHeader'
 
 export default function AddProductPage() {
     const [isActiveSuggest, setIsActiveSuggest] = useState(false);
@@ -32,13 +35,34 @@ export default function AddProductPage() {
         err: ''
     });
 
-    const [listProdCate] = useState([
+    const [listProdCate, setListProdCate] = useState([
         "Coffee Cup",
         "Coffee Pot",
         "Coffee Treats",
         "Ground Coffee",
         "Paper Bag"
     ])
+
+    const [keySearch, setKeySearch] = useState("")
+
+    useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken')
+        if(accessToken){
+            setHeader(accessToken)
+            console.log("Set access token")
+
+            api.get('product-category')
+            .then(res =>{
+                if(res.data.success && res.data.listProdCate){
+                    let listProdCate = res.data.listProdCate.map(item => item.title)
+                    setListProdCate(listProdCate)
+                }
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+        }
+    }, [])
 
     const [prodOther, setProdOther] = useState({
         prodWidth: {
@@ -182,6 +206,10 @@ export default function AddProductPage() {
                 }
                 setProdOther(oldValue)
                 break;
+
+            case "keySearch":
+                setKeySearch(value)
+                break
             default:
                 break;
         }
@@ -272,6 +300,8 @@ export default function AddProductPage() {
 
                         {/* Thông tin bán hàng */}
                         <ProductInfoSale
+                            keySearch = {keySearch}
+
                             prodPrice = {prodPrice.value}
                             prodPriceError = {prodPrice.error}
 

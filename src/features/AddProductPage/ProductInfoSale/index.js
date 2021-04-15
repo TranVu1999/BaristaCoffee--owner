@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import SaleTableInput from './../SaleTableInput';
 import InputField from './../../../commons/components/InputField';
+import TextareaField from './../../../commons/components/TextareaField';
 
 export default function ProductInfoSale(props) {
 
@@ -85,13 +86,24 @@ export default function ProductInfoSale(props) {
                 </div>
             </div>
 
-            <div className="widget-form__row">
+            <div className="widget-form__row align-start">
                 <div className="widget-form__label">Phân loại hàng</div>
 
-                <div className="widget-form__input ">
-                    <div className="input-control md-input add-input">
-                        <span className="add-label"><span aria-hidden="true" class="icon_plus_alt2"></span> Thêm nhóm phân loại</span>
+                <div className="widget-form__input">
+
+                    <div className="input-control md-input">
+                        <textarea
+                            rows="5"
+                            onBlur = {onHandleBlur}
+                            onFocus = {onHandleFocus}
+                            onChange = {onHandleChange}
+                            value = {props.keySearch}
+                            name="keySearch"
+                        >
+
+                        </textarea>
                     </div>
+
                 </div>
             </div>
 
