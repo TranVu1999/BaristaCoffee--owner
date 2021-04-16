@@ -3,6 +3,7 @@ import './assets/Sass/index.scss';
 import './App.scss';
 import Header from "./features/Layout/Header";
 import SidebarLeft from './features/Layout/SidebarLeft';
+import LoginPage from './pages/Login'
 
 import {Switch, Route} from 'react-router-dom'
 import routes from './containers/routes'
@@ -15,7 +16,10 @@ class App extends Component {
     
     return (
       <div className = "owner main-wrapper">
-        <Header/>
+        <Switch>
+          <Route path="/login" exact component={LoginPage}/>
+          <Route path="/" exact>
+          <Header/>
         <div className = "owner__page">
 
           <div className = "sidebar--left">
@@ -31,6 +35,10 @@ class App extends Component {
             
           </div>
         </div>
+          </Route>
+        </Switch>
+
+        
         
       </div>
     );
