@@ -12,6 +12,7 @@ import ProudctOther from './../../features/AddProductPage/ProductOther';
 
 import api from './../../api'
 import setHeader from './../../untils/setHeader'
+import * as Helpers from './../../commons/js/helper'
 
 export default function AddProductPage() {
     const [isActiveSuggest, setIsActiveSuggest] = useState(false);
@@ -19,51 +20,24 @@ export default function AddProductPage() {
         value: '',
         err: ''
     });
-
     const [prodDesc, setProdDesc] = useState({
         value: '',
         err: ''
     });
-
+    const [prodShortDesc, setProdShortDesc] = useState({
+        value: '',
+        err: ''
+    });
     const [prodPrice, setProdPrice] = useState({
         value: '',
         err: ''
     });
-
     const [prodSKU, setProdSKU] = useState({
         value: '',
         err: ''
     });
-
-    const [listProdCate, setListProdCate] = useState([
-        "Coffee Cup",
-        "Coffee Pot",
-        "Coffee Treats",
-        "Ground Coffee",
-        "Paper Bag"
-    ])
-
+    const [listProdCate, setListProdCate] = useState([])
     const [keySearch, setKeySearch] = useState("")
-
-    useEffect(() => {
-        const accessToken = localStorage.getItem('accessToken')
-        if(accessToken){
-            setHeader(accessToken)
-            console.log("Set access token")
-
-            api.get('product-category')
-            .then(res =>{
-                if(res.data.success && res.data.listProdCate){
-                    let listProdCate = res.data.listProdCate.map(item => item.title)
-                    setListProdCate(listProdCate)
-                }
-            })
-            .catch(err =>{
-                console.log(err)
-            })
-        }
-    }, [])
-
     const [prodOther, setProdOther] = useState({
         prodWidth: {
             value: '',
@@ -82,7 +56,63 @@ export default function AddProductPage() {
             error: ''
         }
     })
+    const [moreImage, setMoreImage] = useState([
+        {url: ''},
+        {url: ''},
+        {url: ''},
+        {url: ''},
+        {url: ''},
+        {url: ''}
+    ])
+    const [listSaleRow, setListSaleRow] = useState([
+        { 
+            id: "1", 
+            from: {
+                value: "",
+                error: ""
+            }, 
 
+            to: {
+                value: "",
+                error: ""
+            }, 
+
+            price: {
+                value: "",
+                error: ""
+            }
+        }
+    ]);
+    const [productCategoryId, setProductCategoryId] = useState("")
+
+
+    useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken')
+        if(accessToken){
+            setHeader(accessToken)
+            console.log("Set access token")
+
+            api.get('product-category')
+            .then(res =>{
+                if(res.data.success && res.data.listProdCate){
+                    let listProdCate = res.data.listProdCate.map(item => {
+                        return {
+                            title: item.title,
+                            id: item._id
+                        }
+                        
+                    })
+
+                    setListProdCate(listProdCate)
+                }
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+        }
+    }, [])
+
+    
     const onHandleFocus = (event) =>{
         setIsActiveSuggest(false);
         setTimeout(function(){ setIsActiveSuggest(true); }, 500);
@@ -152,6 +182,30 @@ export default function AddProductPage() {
                 }
 
                 setProdDesc(oldValue);
+                break;
+
+            // Mô tả sản phẩm
+            case 'prodShortDesc':
+                oldValue = {...prodShortDesc};
+                oldValue.value = value;
+                lengthValue = value.length;
+
+                if(lengthValue === 0){
+                    oldValue.error = "Không được để trống ô";
+                }else {
+                    let checkSpace = validate.checkSpaceOfString(value);
+                    if(checkSpace === 0){
+                        oldValue.error = "Mô tả sản phẩm không thể bắt đầu bằng một khoảng trắng"
+                    }else if(checkSpace === -1){
+                        oldValue.error = "Mô tả sản phẩm không thể có 2 khoảng trắng liên tiếp";
+                    }else if(lengthValue < 100){
+                        oldValue.error = "Mô tả sản phẩm của bạn quá ngắn. Vui lòng nhập ít nhất 100 ký tự";
+                    }else{
+                        oldValue.error = "";
+                    }
+                }
+
+                setProdShortDesc(oldValue);
                 break;
             
             // Giá sản phẩm
@@ -267,8 +321,65 @@ export default function AddProductPage() {
         }
     }
 
-    const onHandleChooseItem = (event) =>{
-        // Xử lý chọn danh mục sản phẩm
+    const onHandleChooseItem = (item) =>{
+        setProductCategoryId(item)
+    }
+
+    const onHandleGetImage = (imageInfo) =>{
+        const {index, url} = imageInfo
+        let newMoreImage = [...moreImage]
+        newMoreImage[index].url = url
+        console.log(newMoreImage)
+        setMoreImage(newMoreImage)
+    }
+
+    const onHanldeSave = () =>{
+        let alias = Helpers.removeSpaveRedundancy(prodTitle.value)
+        alias = Helpers.createAlias(alias)
+
+        let keyWords = Helpers.splitKeyWord(keySearch)
+        keyWords = keyWords.map(item => item.trim())
+
+        let listSale = listSaleRow.map(item => {
+            return {
+                from: item.from.value,
+                to: item.to.value,
+                price: item.price.value
+            }
+        })
+
+        const data = {
+            avatar: moreImage[0].url,
+            moreImage: moreImage.slice(1).map(item => item.url),
+            title: prodTitle.value,
+            alias,
+            productCategoryId,
+            price: Helpers.removeCharacter(prodPrice.value, ',') ,
+            shortDescription: prodShortDesc.value,
+            detail: prodDesc.value,
+            sku: prodSKU.value,
+            keySearch: keyWords,
+            height: prodOther.prodHeight.value,
+            width: prodOther.prodWidth.value,
+            length: prodOther.prodLength.value,
+            weight: prodOther.prodWeight.value,
+            listSale
+        }
+        console.log({data})
+
+        api.post('product', data)
+        .then(res =>{
+            if(res.data.success){
+                console.log("ok")
+            }
+        })
+        .catch(err =>{
+            console.log(err)
+        }) 
+    }
+
+    const onHanldeAddSale = (listSaleRow) =>{
+        setListSaleRow(listSaleRow)
     }
 
     return (
@@ -294,6 +405,9 @@ export default function AddProductPage() {
                             prodDesc = {prodDesc.value}
                             prodDescError = {prodDesc.error}
 
+                            prodShortDesc = {prodShortDesc.value}
+                            prodShortDescError = {prodShortDesc.error}
+
                             listProdCate = {listProdCate}
                             onHandleChooseItem = {onHandleChooseItem}
                         />
@@ -308,13 +422,19 @@ export default function AddProductPage() {
                             prodSKU = {prodSKU.value}
                             prodSKUError = {prodSKU.error}
 
+                            listSaleRow = {listSaleRow}
+
                             onHandleFocus = {onHandleFocus}
                             onHandleChange = {onHandleChange}
                             onHandleBlur = {onHandleBlur}
+                            onAddSale = {onHanldeAddSale}
                         />
 
                         {/* Quản lý hình ảnh */}
-                        <ProductImage/>
+                        <ProductImage
+                            onGetImage = {onHandleGetImage}
+                            moreImage = {moreImage}
+                        />
 
                         {/* Thông tin khác */}
                         <ProudctOther
@@ -333,7 +453,10 @@ export default function AddProductPage() {
                             <div className="widget-form__row">
                                 <div className="widget-form__input">
                                     <button className="btn-cancel">Hủy</button>
-                                    <button className="btn-save">Lưu</button>
+                                    <button 
+                                        className="btn-save"
+                                        onClick = {onHanldeSave}
+                                    >Lưu</button>
                                 </div>
                             </div>
                         </div>

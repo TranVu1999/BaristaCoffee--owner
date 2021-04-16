@@ -157,6 +157,8 @@ export default function SaleTableInput(props) {
         newListSaleRow = updateFromOfSaleRow(newListSaleRow, lengthSaleRow - 1);
 
         setListSaleRow(newListSaleRow);
+
+        props.onAddSale(listSaleRow)
     }
 
     const renderSaleRow = () =>{

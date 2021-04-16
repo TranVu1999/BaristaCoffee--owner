@@ -1,31 +1,10 @@
 import React, {useState} from 'react';
 import SaleTableInput from './../SaleTableInput';
 import InputField from './../../../commons/components/InputField';
-import TextareaField from './../../../commons/components/TextareaField';
 
 export default function ProductInfoSale(props) {
 
     const [showListSaleRow, setShowListSaleRow] = useState(false);
-
-    const [listSaleRow, setListSaleRow] = useState([
-        { 
-            id: "1", 
-            from: {
-                value: "",
-                error: ""
-            }, 
-
-            to: {
-                value: "",
-                error: ""
-            }, 
-
-            price: {
-                value: "",
-                error: ""
-            }
-        }
-    ]);
 
     const onHandleFocus = (event) =>{
         props.onHandleFocus(event)
@@ -45,6 +24,10 @@ export default function ProductInfoSale(props) {
 
     const onHandleCloseListSaleRow = () =>{
         setShowListSaleRow(false);
+    }
+
+    const onHanldeAddSale = (listSaleRow) =>{
+        props.onAddSale(listSaleRow)
     }
 
     return (
@@ -99,6 +82,7 @@ export default function ProductInfoSale(props) {
                             onChange = {onHandleChange}
                             value = {props.keySearch}
                             name="keySearch"
+                            
                         >
 
                         </textarea>
@@ -112,8 +96,9 @@ export default function ProductInfoSale(props) {
 
                 <div className="widget-form__input">
                     {showListSaleRow ? (<SaleTableInput 
-                        listSaleRow = {listSaleRow}
+                        listSaleRow = {props.listSaleRow}
                         onHandleCloseListSaleRow = {onHandleCloseListSaleRow}
+                        onAddSale = {onHanldeAddSale}
                     />): (
                         <div 
                             className="input-control md-input add-input"

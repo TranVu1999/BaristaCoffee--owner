@@ -1,3 +1,4 @@
+
 import React, {useState, useEffect} from 'react';
 import './style.scss';
 
@@ -7,6 +8,13 @@ export default function SelectFindField(props) {
     const [showListOption, setShowListOption] = useState(props.listOption);
     const [keySearch, setKeySearch] = useState("");
     const [resSpan, setResSpan] = useState("");
+
+    useEffect(() =>{
+        setOriginalListOption(props.listOption)
+        setShowListOption(props.listOption)
+    })
+
+    
 
     const onOpenListSelect = () =>{
         setIsOpenSelect(true);
@@ -18,8 +26,8 @@ export default function SelectFindField(props) {
     }
 
     const onHandleChooseItem = (item) =>{
-        props.onHandleChooseItem(item);
-        setResSpan(item);
+        props.onHandleChooseItem(item.id);
+        setResSpan(item.title);
         setIsOpenSelect(false);
     }
 
@@ -30,7 +38,7 @@ export default function SelectFindField(props) {
                     key = {index} 
                     className="option__item"
                     onClick = {() => onHandleChooseItem(item)}
-                >{item}</div>
+                >{item.title}</div>
             )
         })
     }

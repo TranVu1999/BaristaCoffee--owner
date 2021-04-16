@@ -45,3 +45,9 @@ export const createAlias = str =>{
     res = str.replace(' ', '-').toLowerCase()
     return res
 }
+
+export const splitKeyWord = str =>{
+    let res = str.split(',')
+    
+    return res
+}

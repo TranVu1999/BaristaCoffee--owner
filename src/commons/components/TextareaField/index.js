@@ -20,7 +20,8 @@ export default function TextareaField(props) {
                 className = {props.errMessage ? "input-control has-error" : "input-control"}
             >
                 <textarea 
-                    rows="10" cols="30"
+                    rows = {props.rows ? props.rows : 10}
+                    cols="30"
                     onFocus = {onHandleFocus}
                     onBlur = {onHandleBlur}
                     value = {props.value}

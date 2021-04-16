@@ -79,9 +79,9 @@ function ProudctOther(props) {
                                 type="text" 
                                 placeholder="1.0"
                                 name="size-weight"
-                                onHandleFocus = {onHandleFocus}
-                                onHandleChange = {onHandleChange}
-                                onHandleBlur = {onHandleBlur}
+                                onFocus = {onHandleFocus}
+                                onChange = {onHandleChange}
+                                onBlur = {onHandleBlur}
                                 value = {props.prodWeight}
                             />
                             <div className="input-suffix">kg</div>

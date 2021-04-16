@@ -46,6 +46,26 @@ export default function ProductInfomationBasic(props) {
 
             <div className="widget-form__row large-input">
                 <div className="widget-form__label">
+                    Mô tả ngắn
+                </div>
+
+                <div className="widget-form__input">
+                    <TextareaField
+                        onHandleChange = {onHandleChange}
+                        onHandleFocus = {onHandleFocus}
+                        onHandleBlur = {onHandleBlur}
+                        name = "prodShortDesc"
+                        value = {props.prodShortDesc}
+                        rangeLimit = "500"
+                        errMessage = {props.prodShortDescError}
+                        rows = {5}
+                    />
+                </div>
+            </div>
+
+
+            <div className="widget-form__row large-input">
+                <div className="widget-form__label">
                     Mô tả sản phẩm
                 </div>
 
@@ -62,6 +82,7 @@ export default function ProductInfomationBasic(props) {
                 </div>
             </div>
 
+            
             <div className="widget-form__row">
                 <div className="widget-form__label">Danh mục</div>
 
