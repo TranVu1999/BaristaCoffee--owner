@@ -1,0 +1,11 @@
+@import './../../../assets/Sass/variable.scss';
+
+.header__contact{
+    a{
+        margin: 0 8px;
+
+        &:hover{
+            color: $primary-color;
+        }
+    }
+}

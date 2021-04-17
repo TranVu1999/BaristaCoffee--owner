@@ -34,9 +34,9 @@ function ShopProfilePage(props) {
 
     useEffect(() =>{
         const accessToken = localStorage.getItem('accessToken')
+        console.log({accessToken})
         if(accessToken){
             setHeader(accessToken)
-            console.log("Set access token")
 
             api.get('store')
             .then(res =>{

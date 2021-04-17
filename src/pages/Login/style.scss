@@ -1,0 +1,30 @@
+@import './../../assets/Sass/variable.scss';
+@import './../../assets/Sass/minxin.scss';
+
+.auth__content{
+    margin-top: 80px;
+    padding: 60px 120px;
+    @include d-flex(center, space-between);
+
+    .auth--right{
+        width: 400px;
+    }
+
+    .auth--left{
+        img{
+            height: 200px;
+        }
+    }
+
+    .auth__text{
+        max-width: 400px;
+        h2{
+            text-transform: initial;
+        }
+
+        p{
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+    }
+}

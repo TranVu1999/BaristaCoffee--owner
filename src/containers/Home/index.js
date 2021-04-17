@@ -21,9 +21,11 @@ function HomePage(props) {
         if(accessToken){
             setHeader(accessToken)
             console.log("Set access token")
+        }else{
+            window.location.href = "http://localhost:3800/login"
         }
         
-    }, )
+    }, [])
 
     return (
         <div className="container__content home__container">

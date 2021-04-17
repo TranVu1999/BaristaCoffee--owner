@@ -1,22 +1,28 @@
 import React from 'react';
-import HeaderAccount from '../../../commons/components/HeaderAccount';
-import HeaderApp from '../../../commons/components/HeaderApp';
-import HeaderLearn from '../../../commons/components/HeaderLearn';
+
 import HeaderLogo from '../../../commons/components/HeaderLogo';
-import HeaderNotify from '../../../commons/components/HeaderNotify';
 import './style.scss';
 
-export default function Header() {
+export default function Header({
+    headerAccount, 
+    headerApp, 
+    headerLearn, 
+    headerNotify,
+    headerComback,
+    headerContact
+}) {
     return (
         <header className = "d-flex-between header">
             <HeaderLogo/>
 
             <div className="d-flex-between">
-                <HeaderAccount/>
+                {headerAccount}
+                {headerComback}
                 <div className="header--line"></div>
-                <HeaderApp/>
-                <HeaderNotify/>
-                <HeaderLearn/>
+                {headerApp}
+                {headerNotify}
+                {headerLearn}
+                {headerContact}
             </div>
             
         </header>

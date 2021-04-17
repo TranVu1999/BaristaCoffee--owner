@@ -1,0 +1,23 @@
+@import './../../../assets/Sass/variable.scss';
+
+.header__comback{
+    padding: 16px 40px 16px 0;
+    position: relative;
+
+    a:hover{
+        color: $primary-color;
+    }
+
+    span{
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: $primary-color;
+
+        display: block;
+        padding: 0px 8px;
+        line-height: 1.4;
+        border-radius: 8px;
+        color: #fff;
+    }
+}
