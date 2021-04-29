@@ -90,7 +90,6 @@ export default function AddProductPage() {
         const accessToken = localStorage.getItem('accessToken')
         if(accessToken){
             setHeader(accessToken)
-            console.log("Set access token")
 
             api.get('product-category')
             .then(res =>{
@@ -365,7 +364,6 @@ export default function AddProductPage() {
             weight: prodOther.prodWeight.value,
             listSale
         }
-        console.log({data})
 
         api.post('product', data)
         .then(res =>{

@@ -1,0 +1,305 @@
+@import './../../../assets/Sass/variable.scss';
+@import './../../../assets/Sass/minxin.scss';
+
+.chat-box__content{
+    position: fixed;
+    bottom: 0%;
+    right: 0;
+
+    background-color: #fff;
+    box-shadow: 0 0 1px #d5d5d5;
+    border: 1px solid #d5d5d5;
+    width: 220px;
+    height: 380px;
+
+    transition: all .5s;
+    z-index: 100;
+
+    &.small{
+        width: 105px;
+        height: 45px
+    }
+
+    &.large{
+        width: 505px;
+    }
+
+    .chat-box__title{
+        @include d-flex(center, space-between);
+        font-size: 16px;
+        font-weight: 700;
+        padding: 8px 15px;
+        cursor: pointer;
+
+        color: $primary-color;
+        box-shadow: 0 1px 1px #d5d5d5;
+
+        .text{
+            @include d-flex(center, flex-start);
+
+            svg{
+                width: 27px;
+                height: 27px;
+                fill: $primary-color;
+                margin-right: 10px;
+            }
+        }
+
+        .control{
+            button{
+                background-color: transparent;
+
+                &:first-child{
+                    margin-right: 4px;
+                }
+            }
+
+            svg{
+                height: 16px;
+                width: 16px;
+            }
+        }
+
+        
+    }
+
+    .large-chat-box{
+        @include d-flex(flex-end, flex-end);
+
+        .chat-box--left{
+            width: 0;
+            opacity: 0;
+        }
+
+        &.large{
+            .chat-box--left{
+                animation: openLargeChatBox 1s linear 1 forwards;
+            }
+            
+        }
+
+        
+    }
+
+    .chat-box--left{
+        width: 285px;
+        height: 380px;
+    }
+
+    .chat-box--right{
+        width: 220px;
+        height: 380px;
+        border-left: 1px solid #d5d5d5;
+    }
+
+    .to{
+        font-weight: 800;
+        color: $main-color;
+        padding: 8px 15px;
+        box-shadow: 0 1px 1px #d5d5d5;
+
+        p{
+            margin: 0;
+        }
+    }
+
+    .list-message{
+        font-size: 13px;
+        max-height: 250px;
+        overflow-y: scroll;
+
+        /* width */
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        /* Track */
+        &::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            background: $primary-color; 
+            border-radius: 4px;
+        }
+        
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+            background: $main-color; 
+        }
+
+        .message__item{
+            &:first-child{
+                margin-top: 10px;
+            }
+        }
+
+        .message__item.author{
+            text-align: right;
+
+            .message__content--box{
+                padding-right: 15px;
+            }
+        }
+
+        .message__item.other{
+            text-align: left;
+
+            .message__content--box{
+                padding-left: 15px;
+            }
+        }
+
+        .message__date{
+            text-align: center;
+            margin-bottom: 6px;
+            margin-top: 15px;
+            position: relative;
+
+            &::before, &::after{
+                content: '';
+                display: block;
+                width: 60px;
+                height: 1px;
+
+                background-color: #d5d5d5;
+                position: absolute;
+                top: 50%;
+            }
+
+            &::before{
+                left: 0px;
+            }
+
+            &::after{
+                right: 0px;
+            }
+        }
+
+        .message__content--box{ 
+            margin-bottom: 4px;
+
+            .message__content{
+                display: inline-block;
+                max-width: 80%;
+                background-color: #d7e4ff;
+                border-radius: 4px;
+                padding: 6px 8px;
+            }
+            
+        }
+    }
+
+    .send-message--box{
+        border-top: 1px solid #d5d5d5;
+
+        form{
+            margin-top: 4px;
+            @include d-flex(center, space-between);
+            padding: 8px 15px;
+
+            button{
+                font-size: 14px;
+            }
+        }
+    }
+
+    .input-search{
+        @include d-flex(flex-start, center);
+        margin: 8px 15px;
+        padding: 6px 12px;
+        background-color: #d5d5d5;
+        position: relative;
+
+        span{
+            position: absolute;
+            top: 50%;
+            left: 16px;
+            transform: translateY(-50%);
+            width: 16px;
+        }
+
+        input{
+            width: 100%;
+            padding-left: 24px;
+        }
+    }
+
+    .list-conversation{
+        margin-top: 8px;
+
+        .conversation--item{
+            @include d-flex(center, flex-start);
+            line-height: 1.4;
+            padding: 8px 8px 8px 0;
+            font-size: 12px;
+            cursor: pointer;
+
+            &.active{
+                background-color: #ebedf1;
+            }
+
+            .thumb{
+                width: 32px;
+                height: 32px;
+                margin-right: 8px;
+                margin-left: 15px;
+
+                img{
+                    object-fit: cover;
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+
+            .text{
+                display: block;
+                flex: 1;
+                width: 0;
+
+                p{
+                    margin: 0;
+                    margin-bottom: 4px;
+                    font-weight: 800;
+                    color: $main-color;
+                }
+            }
+
+            .sub-message--box{
+                @include d-flex(flex-start, space-between);
+                
+                line-height: 14px;
+
+                .sub-message{
+                    display: block;
+                    color: #888;
+                    max-width: 80%;
+                    
+                    margin-right: 4px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+
+                .control{
+                    width: 20%;
+                }
+            }
+        }
+    }
+    
+}
+
+@keyframes openLargeChatBox{
+    0%{
+        opacity: 0;
+    }
+    5%{
+        width: 285px;
+    }
+    100%{
+        opacity: 1;
+        width: 285px;
+    }
+}

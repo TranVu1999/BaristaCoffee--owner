@@ -8,6 +8,7 @@ import HeaderApp from './commons/components/HeaderApp';
 import HeaderLearn from './commons/components/HeaderLearn';
 
 import SidebarLeft from './features/Layout/SidebarLeft';
+import ChatBox from './features/Layout/ChatBox'
 import LoginPage from './pages/Login'
 
 import {Switch, Route} from 'react-router-dom'
@@ -19,7 +20,6 @@ import HeaderNotify from "./commons/components/HeaderNotify";
 class App extends Component {
 
   render(){
-    
     return (
       <div className = "owner main-wrapper">
         <Switch>
@@ -47,8 +47,7 @@ class App extends Component {
           </Route>
         </Switch>
 
-        
-        
+        <ChatBox/>
       </div>
     );
   }

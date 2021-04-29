@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import './style.scss'
-
 import api from './../../../api'
 
 function FormLogin() {
@@ -62,6 +61,7 @@ function FormLogin() {
             .then(res =>{
                 if(res.data.success){
                     localStorage.setItem('accessToken', res.data.accessToken)
+                    localStorage.setItem('account', res.data.accountInfo.id)
                     window.location.href = "http://localhost:3800/"
                 }
             })

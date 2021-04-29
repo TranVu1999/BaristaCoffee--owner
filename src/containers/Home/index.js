@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import PropTypes from 'prop-types';
+import {useDispatch} from 'react-redux'
 import './style.scss'
 
 import TodoList from './../../features/HomePage/TodoList'
@@ -9,18 +9,26 @@ import OperationalEfficiency from './../../features/HomePage/OperationalEfficien
 import SidebarRight from './../../features/HomePage/SidebarRight'
 
 import setHeader from './../../untils/setHeader'
+import {
+    actConnect,
+    actCreateRoom
+} from './../../commons/modules/socket/actions'
+
 
 HomePage.propTypes = {
     
 };
 
 function HomePage(props) {
+    const dispatch = useDispatch()
 
     useEffect(() => {
         const accessToken = localStorage.getItem('accessToken')
+        const account = localStorage.getItem('account')
         if(accessToken){
             setHeader(accessToken)
-            console.log("Set access token")
+            dispatch(actConnect())
+            dispatch(actCreateRoom(account))
         }else{
             window.location.href = "http://localhost:3800/login"
         }
