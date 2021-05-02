@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {useEffect} from "react";
 import './assets/Sass/index.scss';
 import './App.scss';
 
@@ -17,43 +17,36 @@ import HeaderNotify from "./commons/components/HeaderNotify";
 
 
 // LAYOUT
-class App extends Component {
+export default function App() {
+  
+  return (
+    <div className = "owner main-wrapper">
+      <Switch>
+        <Route path="/login" exact component={LoginPage}/>
+        <Route path="/">
+          <Header
+            headerAccount = {<HeaderAccount/>}
+            headerApp = {<HeaderApp/>}
+            headerLearn = {<HeaderLearn/>}
+            headerNotify = {<HeaderNotify/>}
+          />
 
-  render(){
-    return (
-      <div className = "owner main-wrapper">
-        <Switch>
-          <Route path="/login" exact component={LoginPage}/>
-          <Route path="/">
-            <Header
-              headerAccount = {<HeaderAccount/>}
-              headerApp = {<HeaderApp/>}
-              headerLearn = {<HeaderLearn/>}
-              headerNotify = {<HeaderNotify/>}
-            />
+          <div className = "owner__page">
 
-            <div className = "owner__page">
+            <div className = "sidebar--left"><SidebarLeft/></div>
 
-              <div className = "sidebar--left"><SidebarLeft/></div>
-
-              <div className = "owner--content">
-                <Switch>
-                  {routes.map((item, index) =>{
-                    return <Route key = {index} path = {item.path} component = {item.component}/>
-                  })}
-                </Switch>
-              </div>
+            <div className = "owner--content">
+              <Switch>
+                {routes.map((item, index) =>{
+                  return <Route key = {index} path = {item.path} component = {item.component}/>
+                })}
+              </Switch>
             </div>
-          </Route>
-        </Switch>
+          </div>
+        </Route>
+      </Switch>
 
-        <ChatBox/>
-      </div>
-    );
-  }
-  
-  
+      <ChatBox/>
+    </div>
+  );
 }
-
-
-export default App;

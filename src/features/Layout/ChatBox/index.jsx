@@ -1,16 +1,42 @@
-import React, {useState} from 'react';
-import {useSelector} from 'react-redux'
-import PropTypes from 'prop-types';
+import React, {useState, useEffect, useRef} from 'react';
 import './style.scss'
 
-ChatBox.propTypes = {
-    
-};
 
-function ChatBox(props) {
+import io from 'socket.io-client'
+let socket = io('http://localhost:5000')
+
+function ChatBox() {
+
     const [isSmallContent, setIsSmallContent] = useState(true)
     const [isLargecontent, setIsLargeContent] = useState(false)
-    const newMessage = useSelector(state => state.socketReducer.newMessage)
+
+    const [message, setMessage] = useState([])
+    const [messageContent, setMessageContent] = useState("")
+    const [isNewMessage, setIsNewMessage] = useState(true)
+    const [currentUserActive, setCurrentUserActive] = useState("")
+    const [listChat, setListChat] = useState([])
+    const time = useRef(null)
+
+    useEffect(() => {
+        const account = localStorage.getItem('account')
+        if(account){
+            
+            socket.emit('new user', account)
+            socket.on('whisper', data =>{
+                const mess = {
+                    author: false,
+                    content: data.mess,
+                    isNewMessage: false
+                }
+
+                let newMessage = [...message, mess]
+                setMessage(newMessage)
+                setCurrentUserActive(data.listChat[0].id)
+                setListChat(data.listChat)
+            })
+        }    
+    }, [])
+
 
     const onHanldeCloseChatBox = () =>{
         setIsLargeContent(false)
@@ -36,6 +62,114 @@ function ChatBox(props) {
         }
         return resClass
     }
+
+    const renderMessage = () =>{
+        let index = -1
+        const lengthChat = listChat.length
+        for(let i = 0; i < lengthChat; i ++){
+            if(listChat[i].id === currentUserActive){
+                index = i
+                break
+            }
+        }
+
+        if(index !== -1){
+            const account = localStorage.getItem('account')
+
+            return listChat[index].listMessage.map((item, index) =>{
+                return (
+                    <div 
+                        key = {index}
+                        className = {item.sender === account ? "message__item author" : "message__item other"}
+                    >
+                        {item.isNewMessage ? <div className="message__date">Today, 10:33</div> : null}
+                        
+                        <div className="message__content--box">
+                            <div className="message__content"> {item.content}</div>
+                        </div>
+                    </div>
+                )
+            })
+        }
+
+        return null
+    }
+
+    const onHanldeChangeMessageContent = event => {
+        const {value} = event.target
+        setMessageContent(value)
+    }
+
+    const onHanldeSendMessage = event =>{
+        event.preventDefault()
+        const data = {
+            author: true,
+            content: messageContent,
+            isNewMessage
+        }
+        let newMessage = [...message]
+        newMessage.push(data)
+        setMessage(newMessage)
+        setMessageContent("")
+        setIsNewMessage(false)
+
+        if(time.current){
+            clearTimeout(time.current)
+        }
+
+        time.current = setTimeout(() =>{
+            setIsNewMessage(true)
+        }, 15000)
+
+        // send message
+        socket.emit('send message',{
+            receiver: currentUserActive,
+            sender: localStorage.getItem('account'),
+            content: messageContent
+        })
+
+    }
+
+    const renderListchat = () =>{
+        if(listChat.length > 0){
+            return listChat.map((item, index) =>{
+                return (
+                    <div 
+                        className = {currentUserActive === index ? "conversation--item active" : "conversation--item"}
+                        key = {index}
+                    >
+                        <div className="thumb">
+                            <img src="https://cf.shopee.vn/file/08775e2674dabd8a64d516b37dbf9bca_tn" alt="brand logo"/>
+                        </div>
+                        <div className="text">
+                            <p>{item.username.substring(0, item.username.indexOf('@'))}</p>
+                            <div className="sub-message--box">
+                                <div className="sub-message"> Chào bạn , có vấn đề cần liên hệ vui lòng gọi 085 504 0003 để được giải quyết nhé hoặc nhắn vào zalo sđt như trên nha</div>
+                                
+                                <div className="control">
+                                    <div className="time">10:33</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                )
+            })
+        }
+    }
+
+    const renderCurrentChat = () =>{
+        let username = ""
+        for(let item of listChat){
+            if(item.id === currentUserActive){
+                username = item.username.substring(0, item.username.indexOf('@'))
+            }
+        }
+
+        return username
+    }
+
+    
 
     return (
         <div 
@@ -73,20 +207,23 @@ function ChatBox(props) {
             >
                 <div className="chat-box--left">
                     <div className="to">
-                        <p>khanhuyen_1009</p>
+                        <p>{renderCurrentChat()}</p>
                     </div>
-                    <div className="list-message">
-                        <div className="message__item other">
-                            <div className="message__date">Today, 10:33</div>
-                            <div className="message__content--box">
-                                <div className="message__content"> {newMessage}</div>
-                            </div>
-                        </div>
-                    </div>
+                    <div className="list-message">{renderMessage()}</div>
 
                     <div className="send-message--box">
-                        <form className = "send-message__form">
-                            <input type="text" placeholder="Type a message here"/>
+                        <form 
+                            className = "send-message__form" 
+                            onSubmit = {onHanldeSendMessage}
+                        >
+                            <input 
+                                type="text"
+                                placeholder="Type a message here"
+                                name="message"
+                                value = {messageContent}
+                                onChange = {onHanldeChangeMessageContent}
+
+                            />
 
                             <button><span class="icon icon-compass"></span></button>
                         </form>
@@ -101,56 +238,7 @@ function ChatBox(props) {
                         </div>
                     </div>
 
-                    <div className="list-conversation">
-                        <div className="conversation--item active">
-                            <div className="thumb">
-                                <img src="https://cf.shopee.vn/file/08775e2674dabd8a64d516b37dbf9bca_tn" alt="brand logo"/>
-                            </div>
-                            <div className="text">
-                                <p>khanhuyen_1009</p>
-                                <div className="sub-message--box">
-                                    <div className="sub-message"> Chào bạn , có vấn đề cần liên hệ vui lòng gọi 085 504 0003 để được giải quyết nhé hoặc nhắn vào zalo sđt như trên nha</div>
-                                    
-                                    <div className="control">
-                                        <div className="time">10:33</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div className="conversation--item">
-                            <div className="thumb">
-                                <img src="https://cf.shopee.vn/file/08775e2674dabd8a64d516b37dbf9bca_tn" alt="brand logo"/>
-                            </div>
-                            <div className="text">
-                                <p>khanhuyen_1009</p>
-                                <div className="sub-message--box">
-                                    <div className="sub-message"> Chào bạn , có vấn đề cần liên hệ vui lòng gọi 085 504 0003 để được giải quyết nhé hoặc nhắn vào zalo sđt như trên nha</div>
-                                    
-                                    <div className="control">
-                                        <div className="time">10:33</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div className="conversation--item">
-                            <div className="thumb">
-                                <img src="https://cf.shopee.vn/file/08775e2674dabd8a64d516b37dbf9bca_tn" alt="brand logo"/>
-                            </div>
-                            <div className="text">
-                                <p>khanhuyen_1009</p>
-                                <div className="sub-message--box">
-                                    <div className="sub-message"> Chào bạn , có vấn đề cần liên hệ vui lòng gọi 085 504 0003 để được giải quyết nhé hoặc nhắn vào zalo sđt như trên nha</div>
-                                    
-                                    <div className="control">
-                                        <div className="time">10:33</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
+                    <div className="list-conversation">{renderListchat()}</div>
                 </div>
             </div>
         </div>
