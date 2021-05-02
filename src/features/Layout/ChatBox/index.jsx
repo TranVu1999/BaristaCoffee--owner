@@ -10,6 +10,7 @@ ChatBox.propTypes = {
 function ChatBox(props) {
     const [isSmallContent, setIsSmallContent] = useState(true)
     const [isLargecontent, setIsLargeContent] = useState(false)
+    const newMessage = useSelector(state => state.socketReducer.newMessage)
 
     const onHanldeCloseChatBox = () =>{
         setIsLargeContent(false)
@@ -35,8 +36,6 @@ function ChatBox(props) {
         }
         return resClass
     }
-
-    console.log({isSmallContent})
 
     return (
         <div 
@@ -80,20 +79,7 @@ function ChatBox(props) {
                         <div className="message__item other">
                             <div className="message__date">Today, 10:33</div>
                             <div className="message__content--box">
-                                <div className="message__content"> Chào bạn , có vấn đề cần liên hệ vui lòng gọi 085 504 0003 để được giải quyết nhé hoặc nhắn vào zalo sđt như trên nha</div>
-                            </div>
-                        </div>
-
-                        <div className="message__item author">
-                            <div className="message__date">Today, 10:33</div>
-                            <div className="message__content--box">
-                                <div className="message__content"> Chào bạn!</div>
-                            </div>
-                        </div>
-
-                        <div className="message__item author">
-                            <div className="message__content--box">
-                                <div className="message__content"> Chào bạn!</div>
+                                <div className="message__content"> {newMessage}</div>
                             </div>
                         </div>
                     </div>
